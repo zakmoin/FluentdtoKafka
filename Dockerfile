@@ -20,6 +20,14 @@ RUN apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
 # add conf
 COPY fluent.conf /etc/fluentd
-CMD td-agent -c /etc/fluentd
+COPY start.sh /tmp/start.sh
+#RUN useradd fluent
+#RUN usermod -aG sudo fluent
+#USER fluent
+# This is the command to start fluentd
+USER root
+RUN chmod a+x /tmp/start.sh
+CMD /tmp/start.sh
+
 
 #CMD /etc/init.d/td-agent stop && /opt/td-agent/embedded/bin/fluentd -c /etc/fluentd/fluent.conf
